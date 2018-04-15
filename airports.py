@@ -28,20 +28,19 @@ def distance_between(dept_airport, arr_airport):
 def shortest_distance(dept_airport, destination_airports):
     current_dist = 0
     seen_dist = False
-    closest_icao = ''
+    closest_airport = None
     min_dist = 0
 
     for dest in destination_airports:
         if not dept_airport.icao == dest.icao:
-            prev_dist = current_dist
             current_dist = distance_between(dept_airport, dest)
 
             if current_dist < min_dist or not seen_dist:
-                closest_icao = dest.icao
+                closest_airport = dest
                 min_dist = current_dist
             seen_dist = True
 
-    print(closest_icao + ' ' + str(min_dist))
+    return closest_airport, min_dist
 
 
 class Airport(object):
@@ -60,6 +59,8 @@ for airport in AIRPORTS:
     new_airport = Airport(airport[0], airport[1], airport[2])
     nz_airports.append(new_airport)
 
-shortest_distance(nz_airports[0], nz_airports[1:])
-# for nz_airport in nz_airports:
-#     print(nz_airport.icao)
+
+while len(nz_airports) > 1:
+    close_airport, close_dist = shortest_distance(nz_airports[0], nz_airports[1:])
+    print('Dept: ' + nz_airports[0].icao + " Dest: " + close_airport.icao + " " + str(close_dist))
+    nz_airports.remove(close_airport)
