@@ -64,6 +64,10 @@ previous_airport = origin
 
 while len(dest_airports) >= 1:
     close_airport, close_dist = shortest_distance(previous_airport, dest_airports)
-    print('Dept: ' + previous_airport.icao + " Dest: " + close_airport.icao + " " + str(close_dist))
+    print('Dept: ' + previous_airport.icao + " Dest: " + close_airport.icao + " " + str(int(close_dist)) + " nm")
     previous_airport = close_airport
     dest_airports.remove(close_airport)
+
+dest_airports.append(origin)
+close_dist = shortest_distance(previous_airport, dest_airports)
+print('Dept: ' + previous_airport.icao + " Dest: " + origin.icao + " " + str(int(close_dist[1])) + " nm")
