@@ -24,7 +24,6 @@ def distance_between(dept_airport, arr_airport):
 
 
 def shortest_distance(dept_airport, destination_airports):
-    current_dist = 0
     seen_dist = False
     closest_airport = None
     min_dist = 0
