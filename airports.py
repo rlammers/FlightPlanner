@@ -40,6 +40,27 @@ def shortest_distance(dept_airport, destination_airports):
     return closest_airport, min_dist
 
 
+def populate_dest_airports(dest_airports):
+    for airport in AIRPORTS:
+        new_airport = Airport(airport[0], airport[1], airport[2])
+        dest_airports.append(new_airport)
+
+
+def traverse_airports(dest_airports, previous_airport):
+    while len(dest_airports) >= 1:
+        close_airport, close_dist = shortest_distance(previous_airport, dest_airports)
+        print('Dept: ' + previous_airport.icao + " Dest: " + close_airport.icao + " " + str(int(close_dist)) + " nm")
+        previous_airport = close_airport
+        dest_airports.remove(close_airport)
+    return previous_airport
+
+
+def return_to_origin(dest_airports, origin, previous_airport):
+    dest_airports.append(origin)
+    close_dist = shortest_distance(previous_airport, dest_airports)
+    print('Dept: ' + previous_airport.icao + " Dest: " + origin.icao + " " + str(int(close_dist[1])) + " nm")
+
+
 class Airport(object):
     icao = ''
     latitude = 0
@@ -51,22 +72,16 @@ class Airport(object):
         self.longitude = longitude
 
 
-dest_airports = []
-origin = Airport(ORIGIN[0], ORIGIN[1], ORIGIN[2])
+def main():
+    origin = Airport(ORIGIN[0], ORIGIN[1], ORIGIN[2])
+    previous_airport = origin
 
-for airport in AIRPORTS:
-    new_airport = Airport(airport[0], airport[1], airport[2])
-    dest_airports.append(new_airport)
+    dest_airports = []
+    populate_dest_airports(dest_airports)
+    previous_airport = traverse_airports(dest_airports, previous_airport)
+
+    return_to_origin(dest_airports, origin, previous_airport)
 
 
-previous_airport = origin
-
-while len(dest_airports) >= 1:
-    close_airport, close_dist = shortest_distance(previous_airport, dest_airports)
-    print('Dept: ' + previous_airport.icao + " Dest: " + close_airport.icao + " " + str(int(close_dist)) + " nm")
-    previous_airport = close_airport
-    dest_airports.remove(close_airport)
-
-dest_airports.append(origin)
-close_dist = shortest_distance(previous_airport, dest_airports)
-print('Dept: ' + previous_airport.icao + " Dest: " + origin.icao + " " + str(int(close_dist[1])) + " nm")
+if __name__ == '__main__':
+    main()
