@@ -1,4 +1,5 @@
-from airports import Airport, distance_between
+from airports import distance_between
+from Airport import Airport
 
 
 def test_distance_between():

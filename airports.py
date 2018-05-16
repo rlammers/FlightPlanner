@@ -1,8 +1,8 @@
 from geopy import distance
 from Airport import Airport
 
-ORIGIN = ('NZCH', -43.489444, 172.532222)
-AIRPORTS = 
+AIRPORTS = [
+    ('NZCH', -43.489444, 172.532222),
     ('NZAA', -37.008056, 174.791667),
     ('NZWN', -41.327222, 174.805278),
     ('NZQN', -45.021111, 168.739167),
@@ -62,8 +62,16 @@ def return_to_origin(dest_airports, origin, previous_airport):
     print('Dept: ' + previous_airport.icao + " Dest: " + origin.icao + " " + str(int(close_dist[1])) + " nm")
 
 
+def get_airport(icao):
+    for airport in AIRPORTS:
+        if airport[0] == icao:
+            return Airport(airport[0], airport[1], airport[2])
+    return None
+
+
 def main():
-    origin = Airport(ORIGIN[0], ORIGIN[1], ORIGIN[2])
+    origin_icao = input("Please enter ICAO code for origin:")
+    origin = get_airport(origin_icao)
     previous_airport = origin
 
     dest_airports = []
