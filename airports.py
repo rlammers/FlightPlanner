@@ -1,7 +1,8 @@
 from geopy import distance
+from Airport import Airport
 
 ORIGIN = ('NZCH', -43.489444, 172.532222)
-AIRPORTS = [
+AIRPORTS = 
     ('NZAA', -37.008056, 174.791667),
     ('NZWN', -41.327222, 174.805278),
     ('NZQN', -45.021111, 168.739167),
@@ -59,17 +60,6 @@ def return_to_origin(dest_airports, origin, previous_airport):
     dest_airports.append(origin)
     close_dist = shortest_distance(previous_airport, dest_airports)
     print('Dept: ' + previous_airport.icao + " Dest: " + origin.icao + " " + str(int(close_dist[1])) + " nm")
-
-
-class Airport(object):
-    icao = ''
-    latitude = 0
-    longitude = 0
-
-    def __init__(self, icao, latitude, longitude):
-        self.icao = icao
-        self.latitude = latitude
-        self.longitude = longitude
 
 
 def main():
