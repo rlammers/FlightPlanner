@@ -1,4 +1,4 @@
-from airports import distance_between
+from airports import distance_between, get_airport
 from Airport import Airport
 
 
@@ -11,3 +11,8 @@ def test_distance_between():
     assert(int(dist) == 164)
     dist = distance_between(christchurch, christchurch)
     assert(int(dist) == 0)
+
+
+def test_get_airport():
+    airport = get_airport('NZAA')
+    assert(airport.icao == 'NZAA')
