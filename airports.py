@@ -1,4 +1,5 @@
 from geopy import distance
+
 from Airport import Airport
 
 AIRPORTS = [
@@ -41,10 +42,11 @@ def shortest_distance(dept_airport, destination_airports):
     return closest_airport, min_dist
 
 
-def populate_dest_airports(dest_airports):
+def populate_dest_airports(origin, dest_airports):
     for airport in AIRPORTS:
-        new_airport = Airport(airport[0], airport[1], airport[2])
-        dest_airports.append(new_airport)
+        if origin.icao != airport[0]:
+            new_airport = Airport(airport[0], airport[1], airport[2])
+            dest_airports.append(new_airport)
 
 
 def traverse_airports(dest_airports, previous_airport):
@@ -75,7 +77,7 @@ def main():
     previous_airport = origin
 
     dest_airports = []
-    populate_dest_airports(dest_airports)
+    populate_dest_airports(origin, dest_airports)
     previous_airport = traverse_airports(dest_airports, previous_airport)
 
     return_to_origin(dest_airports, origin, previous_airport)
