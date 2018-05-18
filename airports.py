@@ -1,4 +1,5 @@
 from geopy import distance
+import json
 from Airport import Airport
 from Flight import Flight
 
@@ -80,6 +81,10 @@ def total_distance(flights):
     return total
 
 
+def list_to_json(list):
+    with open('airports.txt', 'w') as outfile:
+        json.dump(list, outfile)
+
 def main():
     origin_icao = input("Please enter ICAO code for origin: ")
     origin = get_airport(origin_icao)
@@ -98,6 +103,7 @@ def main():
 
     print(str(int(total_distance(flights))) + "NM")
 
+    list_to_json(AIRPORTS)
 
 if __name__ == '__main__':
     main()
