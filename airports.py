@@ -73,6 +73,13 @@ def get_airport(icao):
             return airport
 
 
+def total_distance(flights):
+    total = 0
+    for flight in flights:
+        total = total + flight.distance
+    return total
+
+
 def main():
     origin_icao = input("Please enter ICAO code for origin: ")
     origin = get_airport(origin_icao)
@@ -88,6 +95,8 @@ def main():
 
     for flight in flights:
         print(flight)
+
+    print(str(int(total_distance(flights))) + "NM")
 
 
 if __name__ == '__main__':
