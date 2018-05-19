@@ -1,4 +1,4 @@
-from airports import distance_between, get_airport
+from airports import distance_between, get_airport, read_airports_from_csv
 from Airport import Airport
 
 
@@ -18,7 +18,8 @@ def test_distance_between():
 
 
 def test_get_airport():
-    airport = get_airport('NZAA')
+    airports = read_airports_from_csv('airports.csv')
+    airport = get_airport('NZAA', airports)
     assert(airport.icao == 'NZAA')
-    assert(airport.latitude == -37.008056)
-    assert(airport.longitude == 174.791667)
+    assert(float(getattr(airport, 'latitude')) == -37.008056)
+    assert(float(getattr(airport, 'longitude')) == 174.791667)

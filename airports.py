@@ -1,23 +1,6 @@
 from geopy import distance
-import json
 from Airport import Airport
 from Flight import Flight
-
-AIRPORTS = [
-    Airport('NZCH', -43.489444, 172.532222),
-    Airport('NZAA', -37.008056, 174.791667),
-    Airport('NZWN', -41.327222, 174.805278),
-    Airport('NZQN', -45.021111, 168.739167),
-    Airport('NZDN', -45.928056, 170.198333),
-    Airport('NZNV', -46.412222, 168.312778),
-    Airport('NZHN', -37.866667, 175.331944),
-    Airport('NZRO', -38.109167, 176.317222),
-    Airport('NZOH', -40.206111, 175.387778),
-    Airport('NZWP', -36.787778, 174.630278),
-    Airport('NZPM', -40.320556, 175.616944),
-    Airport('NZNR', -39.468333, 176.871667),
-    Airport('NZTG', -37.673333, 176.197222),
-]
 
 
 def distance_between(dept_airport, arr_airport):
@@ -43,8 +26,8 @@ def shortest_distance(dept_airport, destination_airports):
     return closest_airport, min_dist
 
 
-def populate_dest_airports(origin, dest_airports):
-    for airport in AIRPORTS:
+def populate_dest_airports(origin, dest_airports, all_airports):
+    for airport in all_airports:
         if origin.icao != airport.icao:
             dest_airports.append(airport)
 
@@ -68,8 +51,8 @@ def return_to_origin(origin, previous_airport):
     return flight
 
 
-def get_airport(icao):
-    for airport in AIRPORTS:
+def get_airport(icao, airports):
+    for airport in airports:
         if airport.icao == icao:
             return airport
 
@@ -81,17 +64,25 @@ def total_distance(flights):
     return total
 
 
-def list_to_json(list):
-    with open('airports.txt', 'w') as outfile:
-        json.dump(list, outfile)
+def read_airports_from_csv(csv_file):
+    airports = []
+    with open(csv_file, 'r') as f:
+        for line in f:
+            line_array = line.rstrip().split(',')
+            airport = Airport(line_array[0], line_array[1], line_array[2].rstrip())
+            airports.append(airport)
+    return airports
+
 
 def main():
+    airports = read_airports_from_csv('airports.csv')
+
     origin_icao = input("Please enter ICAO code for origin: ")
-    origin = get_airport(origin_icao)
+    origin = get_airport(origin_icao, airports)
     previous_airport = origin
 
     dest_airports = []
-    populate_dest_airports(origin, dest_airports)
+    populate_dest_airports(origin, dest_airports, airports)
     flights = traverse_airports(dest_airports, previous_airport)
 
     final_stop = flights[-1].destination
@@ -103,7 +94,6 @@ def main():
 
     print(str(int(total_distance(flights))) + "NM")
 
-    list_to_json(AIRPORTS)
 
 if __name__ == '__main__':
     main()
