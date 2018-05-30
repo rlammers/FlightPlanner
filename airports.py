@@ -1,4 +1,5 @@
 from geopy import distance
+import pandas as pd
 from Airport import Airport
 from Flight import Flight
 
@@ -28,7 +29,7 @@ def shortest_distance(dept_airport, destination_airports):
 
 def populate_dest_airports(origin, dest_airports, all_airports):
     for airport in all_airports:
-        if origin.icao != airport.icao:
+        if origin['icao'] != airport['icao']:
             dest_airports.append(airport)
 
 
@@ -52,9 +53,7 @@ def return_to_origin(origin, previous_airport):
 
 
 def get_airport(icao, airports):
-    for airport in airports:
-        if airport.icao == icao:
-            return airport
+    return airports.loc[airports['icao'] == icao]
 
 
 def total_distance(flights):
@@ -64,13 +63,8 @@ def total_distance(flights):
     return total
 
 
-def read_airports_from_csv(csv_file):
-    airports = []
-    with open(csv_file, 'r') as f:
-        for line in f:
-            line_array = line.rstrip().split(',')
-            airport = Airport(line_array[0], line_array[1], line_array[2].rstrip())
-            airports.append(airport)
+def read_airports_from_csv(csv_filename):
+    airports = pd.read_csv(csv_filename)
     return airports
 
 
