@@ -29,7 +29,7 @@ def shortest_distance(dept_airport, destination_airports):
 
 def populate_dest_airports(origin, dest_airports, all_airports):
     for airport in all_airports:
-        if origin['icao'] != airport['icao']:
+        if origin.icao != airport.icao:
             dest_airports.append(airport)
 
 
@@ -53,7 +53,9 @@ def return_to_origin(origin, previous_airport):
 
 
 def get_airport(icao, airports):
-    return airports.loc[airports['icao'] == icao]
+    for airport in airports:
+        if icao == airport.icao:
+            return airport
 
 
 def total_distance(flights):
@@ -64,7 +66,10 @@ def total_distance(flights):
 
 
 def read_airports_from_csv(csv_filename):
-    airports = pd.read_csv(csv_filename)
+    airports_df = pd.read_csv(csv_filename, header=0)
+    airports = []
+    for idx, airport in airports_df.iterrows():
+        airports.append(Airport(airport.icao, airport.latitude, airport.longitude))
     return airports
 
 
@@ -77,6 +82,7 @@ def main():
 
     dest_airports = []
     populate_dest_airports(origin, dest_airports, airports)
+
     flights = traverse_airports(dest_airports, previous_airport)
 
     final_stop = flights[-1].destination
