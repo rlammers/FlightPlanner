@@ -21,5 +21,5 @@ def test_get_airport():
     airports = read_airports_from_csv('airports.csv')
     airport = get_airport('NZAA', airports)
     assert(airport.icao == 'NZAA')
-    assert(float(getattr(airport, 'latitude')) == -37.008056)
+    assert(round(float(getattr(airport, 'latitude')), 6) == -37.008056)
     assert(float(getattr(airport, 'longitude')) == 174.791667)
