@@ -9,5 +9,5 @@ class Flight(object):
         self.distance = distance
 
     def __str__(self):
-        return "Flight: " + self.origin.icao + " to " + self.destination.icao\
-               + " Distance: " + str(int(self.distance)) + "NM"
+        return "-" + self.origin.city + " to " + self.destination.city + \
+               " = " + str(int(self.distance)) + "NM"

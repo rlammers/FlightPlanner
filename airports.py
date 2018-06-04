@@ -69,7 +69,7 @@ def read_airports_from_csv(csv_filename):
     airports_df = pd.read_csv(csv_filename, header=0)
     airports = []
     for idx, airport in airports_df.iterrows():
-        airports.append(Airport(airport.icao, airport.latitude, airport.longitude))
+        airports.append(Airport(airport.icao, airport.latitude, airport.longitude, airport.city))
     return airports
 
 
