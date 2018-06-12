@@ -83,10 +83,10 @@ def print_flights(flights):
     print(str(int(total_distance(flights))) + "NM")
 
 
-def create_flightplan(airports, origin, previous_airport):
+def create_flightplan(airports, origin):
     dest_airports = []
     populate_dest_airports(origin, dest_airports, airports)
-    flights = traverse_airports(dest_airports, previous_airport)
+    flights = traverse_airports(dest_airports, origin)
     final_stop = flights[-1].destination
     return_flight = return_to_origin(origin, final_stop)
     flights.append(return_flight)
@@ -129,7 +129,7 @@ def main(argv):
         print("Unable to find airport with ICAO code: " + origin_icao)
         sys.exit()
 
-    flights = create_flightplan(airports, origin, previous_airport)
+    flights = create_flightplan(airports, origin)
     print_flights(flights)
 
 
