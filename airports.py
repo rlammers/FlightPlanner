@@ -1,7 +1,11 @@
-from geopy import distance
+import getopt
+import sys
 import pandas as pd
+from geopy import distance
 from Airport import Airport
 from Flight import Flight
+
+USAGE_MESSAGE = 'airports.py -i <inputfile>'
 
 
 def distance_between(dept_airport, arr_airport):
@@ -73,27 +77,61 @@ def read_airports_from_csv(csv_filename):
     return airports
 
 
-def main():
-    airports = read_airports_from_csv('airports.csv')
-
-    origin_icao = input("Please enter ICAO code for origin: ")
-    origin = get_airport(origin_icao, airports)
-    previous_airport = origin
-
-    dest_airports = []
-    populate_dest_airports(origin, dest_airports, airports)
-
-    flights = traverse_airports(dest_airports, previous_airport)
-
-    final_stop = flights[-1].destination
-    return_flight = return_to_origin(origin, final_stop)
-    flights.append(return_flight)
-
+def print_flights(flights):
     for flight in flights:
         print(flight)
-
     print(str(int(total_distance(flights))) + "NM")
 
 
-if __name__ == '__main__':
-    main()
+def create_flightplan(airports, origin, previous_airport):
+    dest_airports = []
+    populate_dest_airports(origin, dest_airports, airports)
+    flights = traverse_airports(dest_airports, previous_airport)
+    final_stop = flights[-1].destination
+    return_flight = return_to_origin(origin, final_stop)
+    flights.append(return_flight)
+    return flights
+
+
+def setup_origin(airports, origin_icao):
+    if origin_icao == '':
+        origin_icao = input("Please enter ICAO code for origin: ")
+    origin = get_airport(origin_icao, airports)
+    return origin
+
+
+def main(argv):
+    if len(argv) == 0:
+        print(USAGE_MESSAGE)
+        sys.exit()
+
+    inputfile = ''
+    origin_icao = ''
+
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:", ["ifile="])
+    except getopt.GetoptError:
+        print(USAGE_MESSAGE)
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print(USAGE_MESSAGE)
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            inputfile = arg
+        elif opt in ("-o", "--origin"):
+            origin_icao = arg
+
+    airports = read_airports_from_csv(inputfile)
+
+    origin = setup_origin(airports, origin_icao)
+    if origin is None:
+        print("Unable to find airport with ICAO code: " + origin_icao)
+        sys.exit()
+
+    flights = create_flightplan(airports, origin, previous_airport)
+    print_flights(flights)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
