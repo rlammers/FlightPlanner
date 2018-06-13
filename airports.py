@@ -5,13 +5,16 @@ from geopy import distance
 from Airport import Airport
 from Flight import Flight
 
-USAGE_MESSAGE = 'airports.py -i <inputfile>'
+USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
+UNITS = 'nm'
 
 
 def distance_between(dept_airport, arr_airport):
     dept_coords = (dept_airport.latitude, dept_airport.longitude)
     arr_coords = (arr_airport.latitude, arr_airport.longitude)
-    return distance.great_circle(dept_coords, arr_coords).nm
+
+    if UNITS == 'nm':
+        return distance.great_circle(dept_coords, arr_coords).nm
 
 
 def shortest_distance(dept_airport, destination_airports):
@@ -80,7 +83,7 @@ def read_airports_from_csv(csv_filename):
 def print_flights(flights):
     for flight in flights:
         print(flight)
-    print(str(int(total_distance(flights))) + "NM")
+    print(str(int(total_distance(flights))) + UNITS)
 
 
 def create_flightplan(airports, origin):
@@ -109,7 +112,7 @@ def main(argv):
     origin_icao = ''
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:", ["ifile="])
+        opts, args = getopt.getopt(argv, "hi:o:u:", ["ifile="])
     except getopt.GetoptError:
         print(USAGE_MESSAGE)
         sys.exit(2)
@@ -121,6 +124,8 @@ def main(argv):
             inputfile = arg
         elif opt in ("-o", "--origin"):
             origin_icao = arg
+        elif opt in ("-u", "--units"):
+            units = arg
 
     airports = read_airports_from_csv(inputfile)
 
