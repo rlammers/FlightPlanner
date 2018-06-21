@@ -6,25 +6,26 @@ from Airport import Airport
 from Flight import Flight
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
-UNITS = 'nm'
 
 
-def distance_between(dept_airport, arr_airport):
+def distance_between(dept_airport, arr_airport, units):
     dept_coords = (dept_airport.latitude, dept_airport.longitude)
     arr_coords = (arr_airport.latitude, arr_airport.longitude)
 
-    if UNITS == 'nm':
+    if units.lower() == 'nm':
         return distance.great_circle(dept_coords, arr_coords).nm
+    elif units.lower() == 'km':
+        return distance.great_circle(dept_coords, arr_coords).km
 
 
-def shortest_distance(dept_airport, destination_airports):
+def shortest_distance(dept_airport, destination_airports, units):
     seen_dist = False
     closest_airport = None
     min_dist = 0
 
     for dest in destination_airports:
         if not dept_airport.icao == dest.icao:
-            current_dist = distance_between(dept_airport, dest)
+            current_dist = distance_between(dept_airport, dest, units)
 
             if current_dist < min_dist or not seen_dist:
                 closest_airport = dest
@@ -40,21 +41,21 @@ def populate_dest_airports(origin, dest_airports, all_airports):
             dest_airports.append(airport)
 
 
-def traverse_airports(dest_airports, previous_airport):
+def traverse_airports(dest_airports, previous_airport, units):
     flights = []
     while len(dest_airports) >= 1:
-        close_airport, close_dist = shortest_distance(previous_airport, dest_airports)
-        flight = Flight(previous_airport, close_airport, close_dist)
+        close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+        flight = Flight(previous_airport, close_airport, close_dist, units)
         flights.append(flight)
         previous_airport = close_airport
         dest_airports.remove(close_airport)
     return flights
 
 
-def return_to_origin(origin, previous_airport):
+def return_to_origin(origin, previous_airport, units):
     dest_airports = [origin]
-    close_airport, close_dist = shortest_distance(previous_airport, dest_airports)
-    flight = Flight(previous_airport, close_airport, close_dist)
+    close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+    flight = Flight(previous_airport, close_airport, close_dist, units)
 
     return flight
 
@@ -80,18 +81,18 @@ def read_airports_from_csv(csv_filename):
     return airports
 
 
-def print_flights(flights):
+def print_flights(flights, units):
     for flight in flights:
         print(flight)
-    print(str(int(total_distance(flights))) + UNITS)
+    print(str(int(total_distance(flights))) + units)
 
 
-def create_flightplan(airports, origin):
+def create_flightplan(airports, origin, units):
     dest_airports = []
     populate_dest_airports(origin, dest_airports, airports)
-    flights = traverse_airports(dest_airports, origin)
+    flights = traverse_airports(dest_airports, origin, units)
     final_stop = flights[-1].destination
-    return_flight = return_to_origin(origin, final_stop)
+    return_flight = return_to_origin(origin, final_stop, units)
     flights.append(return_flight)
     return flights
 
@@ -134,8 +135,8 @@ def main(argv):
         print("Unable to find airport with ICAO code: " + origin_icao)
         sys.exit()
 
-    flights = create_flightplan(airports, origin)
-    print_flights(flights)
+    flights = create_flightplan(airports, origin, units)
+    print_flights(flights, units)
 
 
 if __name__ == "__main__":
