@@ -15,7 +15,7 @@ class Airport(object):
         self.metar = metar
 
     def get_metar(self):
-        return  self.metar
+        return self.metar
 
     @staticmethod
     def validate_metar(metar):
