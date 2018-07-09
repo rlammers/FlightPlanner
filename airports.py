@@ -137,6 +137,7 @@ def main(argv):
 
     flights = create_flightplan(airports, origin, units)
     print_flights(flights, units)
+    print(str(origin.to_geojson()))
 
 
 if __name__ == "__main__":
