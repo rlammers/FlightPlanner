@@ -1,4 +1,4 @@
-# nz_airports
+# FlightPlanner
 Usage: python airports.py
 
 Prerequisites: Python3, GeoPy and Pandas
