@@ -30,3 +30,6 @@ class Airport(object):
             return True
         else:
             return False
+
+    def to_geojson(self):
+        return {"coordinates": [self.latitude, self.longitude]}
