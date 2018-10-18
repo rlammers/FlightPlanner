@@ -111,6 +111,7 @@ def main(argv):
 
     inputfile = ''
     origin_icao = ''
+    units = ''
 
     try:
         opts, args = getopt.getopt(argv, "hi:o:u:", ["ifile="])
@@ -127,6 +128,12 @@ def main(argv):
             origin_icao = arg
         elif opt in ("-u", "--units"):
             units = arg
+
+    if inputfile == '':
+        inputfile = "airports.csv"
+
+    if units == '':
+        units = 'km'
 
     airports = read_airports_from_csv(inputfile)
 
