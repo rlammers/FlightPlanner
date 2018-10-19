@@ -1,3 +1,5 @@
+from geojson import Point
+
 class Airport(object):
     icao = ''
     latitude = 0
@@ -32,4 +34,4 @@ class Airport(object):
             return False
 
     def to_geojson(self):
-        return {"coordinates": [self.latitude, self.longitude]}
+        return Point([self.latitude, self.longitude])
