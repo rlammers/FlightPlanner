@@ -1,5 +1,5 @@
 from Airport import Airport
-from geojson import Point, Feature
+from geojson import Point, Feature, FeatureCollection
 
 METAR_NZCH = 'METAR NZCH 021100Z AUTO 26005KT 9999 FEW025/// BKN065/// 07/05 Q1024 NOSIG RMK SUGARLOAF 20016KT='
 METAR_NZWR = 'METAR NZWR 021100Z AUTO 35003KT 19KM NCD 10/08 Q1022='
@@ -26,4 +26,5 @@ def test_to_geojson():
     nzch = Airport('NZCH', -43.489444, 172.532222, 'Christchurch')
     point = Point([-43.489444, 172.532222])
     feature = Feature(id=None, geometry=point)
-    assert(nzch.to_geojson() == feature)
+    feature_collection = FeatureCollection(features=[feature])
+    assert(nzch.to_geojson() == feature_collection)
