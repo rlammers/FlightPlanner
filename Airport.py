@@ -1,4 +1,4 @@
-from geojson import Point
+from geojson import Point, Feature, FeatureCollection
 
 class Airport(object):
     icao = ''
@@ -34,4 +34,7 @@ class Airport(object):
             return False
 
     def to_geojson(self):
-        return Point([self.latitude, self.longitude])
+        point =  Point([self.latitude, self.longitude])
+        feature = Feature(id=None, geometry=point)
+        feature_collection = FeatureCollection(features=[feature])
+        return feature_collection

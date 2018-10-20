@@ -16,6 +16,8 @@ def distance_between(dept_airport, arr_airport, units):
         return distance.great_circle(dept_coords, arr_coords).nm
     elif units.lower() == 'km':
         return distance.great_circle(dept_coords, arr_coords).km
+    else:
+        raise ValueError('Invalid unit specified when calculating distance between airports.')
 
 
 def shortest_distance(dept_airport, destination_airports, units):

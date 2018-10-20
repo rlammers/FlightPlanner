@@ -1,5 +1,5 @@
 from Airport import Airport
-from geojson import Point
+from geojson import Point, Feature
 
 METAR_NZCH = 'METAR NZCH 021100Z AUTO 26005KT 9999 FEW025/// BKN065/// 07/05 Q1024 NOSIG RMK SUGARLOAF 20016KT='
 METAR_NZWR = 'METAR NZWR 021100Z AUTO 35003KT 19KM NCD 10/08 Q1022='
@@ -25,4 +25,5 @@ def test_validate_icao():
 def test_to_geojson():
     nzch = Airport('NZCH', -43.489444, 172.532222, 'Christchurch')
     point = Point([-43.489444, 172.532222])
-    assert(nzch.to_geojson() == point)
+    feature = Feature(id=None, geometry=point)
+    assert(nzch.to_geojson() == feature)
