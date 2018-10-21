@@ -1,13 +1,14 @@
 import getopt
 import sys
 import pandas as pd
+import functools
 from geopy import distance
 from Airport import Airport
 from Flight import Flight
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
-
+@functools.lru_cache(maxsize=None)
 def distance_between(dept_airport, arr_airport, units):
     dept_coords = (dept_airport.latitude, dept_airport.longitude)
     arr_coords = (arr_airport.latitude, arr_airport.longitude)
