@@ -11,6 +11,7 @@ pandas = "*"
 geopy = "*"
 geojson = "*"
 pylint = "*"
+bottle = "*"
 
 [requires]
 python_version = "3.6"
