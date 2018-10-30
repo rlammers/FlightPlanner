@@ -1,10 +1,12 @@
-from bottle import Bottle, run
+from bottle import route, run
+import Airport
 
-app = Bottle()
+airports = [Airport]
 
-@app.route('/hello')
-def hello():
-    return "Hello World!"
+@route('/airports/<name>', method='PUT')
+def airport_save(name):
+    airports.append(name)
+
 
 if __name__ == '__main__':
-    run(app, host = 'localhost', port = 8080)
+    run(host = 'localhost', port = 8080, debug=True)
