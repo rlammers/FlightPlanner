@@ -5,6 +5,7 @@ from functools import lru_cache
 from geopy import distance
 from Airport import Airport
 from Flight import Flight
+from airport_service import AirportService
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
@@ -112,12 +113,11 @@ def main(argv):
         print(USAGE_MESSAGE)
         sys.exit()
 
-    inputfile = ''
     origin_icao = ''
     units = ''
 
     try:
-        opts, args = getopt.getopt(argv, "hi:o:u:", ["ifile="])
+        opts, args = getopt.getopt(argv, "ho:u:", [])
     except getopt.GetoptError:
         print(USAGE_MESSAGE)
         sys.exit(2)
@@ -125,20 +125,16 @@ def main(argv):
         if opt == '-h':
             print(USAGE_MESSAGE)
             sys.exit()
-        elif opt in ("-i", "--ifile"):
-            inputfile = arg
         elif opt in ("-o", "--origin"):
             origin_icao = arg
         elif opt in ("-u", "--units"):
             units = arg
 
-    if inputfile == '':
-        inputfile = "airports.csv"
-
     if units == '':
         units = 'km'
 
-    airports = read_airports_from_csv(inputfile)
+    airportService = AirportService()
+    airports = airportService.get_airports()
 
     origin = setup_origin(airports, origin_icao)
     if origin is None:
