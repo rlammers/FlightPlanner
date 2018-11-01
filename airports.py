@@ -1,25 +1,10 @@
 import getopt
 import sys
-import pandas as pd
-from functools import lru_cache
-from geopy import distance
 from Airport import Airport
 from Flight import Flight
 from airport_service import AirportService
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
-
-@lru_cache(maxsize=None)
-def distance_between(dept_airport, arr_airport, units):
-    dept_coords = (dept_airport.latitude, dept_airport.longitude)
-    arr_coords = (arr_airport.latitude, arr_airport.longitude)
-
-    if units.lower() == 'nm':
-        return distance.great_circle(dept_coords, arr_coords).nm
-    elif units.lower() == 'km':
-        return distance.great_circle(dept_coords, arr_coords).km
-    else:
-        raise ValueError('Invalid unit specified when calculating distance between airports.')
 
 
 def shortest_distance(dept_airport, destination_airports, units):
@@ -29,7 +14,7 @@ def shortest_distance(dept_airport, destination_airports, units):
 
     for dest in destination_airports:
         if not dept_airport.icao == dest.icao:
-            current_dist = distance_between(dept_airport, dest, units)
+            current_dist = dept_airport.distance_to(dest, units)
 
             if current_dist < min_dist or not seen_dist:
                 closest_airport = dest
@@ -75,14 +60,6 @@ def total_distance(flights):
     for flight in flights:
         total = total + flight.distance
     return total
-
-
-def read_airports_from_csv(csv_filename):
-    airports_df = pd.read_csv(csv_filename, header=0)
-    airports = []
-    for idx, airport in airports_df.iterrows():
-        airports.append(Airport(airport.icao, airport.latitude, airport.longitude, airport.city))
-    return airports
 
 
 def print_flights(flights, units):
