@@ -17,8 +17,9 @@ class AirportService:
         """
         Read airports from specified csv file
         """
-        airports_df = pd.read_csv(csv_filename, header=0)
+        airports_df = pd.read_csv(csv_filename)
         airports = []
+        
         for idx, airport in airports_df.iterrows():
             airports.append(
                 Airport(

@@ -33,7 +33,9 @@ def populate_dest_airports(origin, dest_airports, all_airports):
 def traverse_airports(dest_airports, previous_airport, units):
     flights = []
     while len(dest_airports) >= 1:
-        close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+        #close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+        close_airport = previous_airport.closest_airport(dest_airports, units)
+        close_dist = previous_airport.distance_to(close_airport)
         flight = Flight(previous_airport, close_airport, close_dist, units)
         flights.append(flight)
         previous_airport = close_airport
@@ -43,7 +45,9 @@ def traverse_airports(dest_airports, previous_airport, units):
 
 def return_to_origin(origin, previous_airport, units):
     dest_airports = [origin]
-    close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+    #close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
+    close_airport = previous_airport.closest_airport(dest_airports, units)
+    close_dist = previous_airport.distance_to(close_airport, units)
     flight = Flight(previous_airport, close_airport, close_dist, units)
 
     return flight
@@ -120,7 +124,6 @@ def main(argv):
 
     flights = create_flightplan(airports, origin, units)
     print_flights(flights, units)
-    print(str(origin.to_geojson()))
 
 
 if __name__ == "__main__":

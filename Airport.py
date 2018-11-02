@@ -32,3 +32,20 @@ class Airport(object):
             return distance.great_circle(departure_coords, arrival_coords).km
         else:
             raise ValueError('Invalid unit specified when calculating distance between airports.')
+
+
+    def closest_airport(self, airports, units):
+        seen_dist = False
+        closest_airport = None
+        min_dist = 0
+
+        for airport in airports:
+            if not self.icao == airport.icao:
+                current_dist = self.distance_to(airport, units)
+
+                if current_dist < min_dist or not seen_dist:
+                    closest_airport = airport
+                    min_dist = current_dist
+                seen_dist = True
+
+        return closest_airport
