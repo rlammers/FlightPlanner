@@ -3,25 +3,9 @@ import sys
 from Airport import Airport
 from Flight import Flight
 from airport_service import AirportService
+from flight_schedule import FlightSchedule
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
-
-
-def shortest_distance(dept_airport, destination_airports, units):
-    seen_dist = False
-    closest_airport = None
-    min_dist = 0
-
-    for dest in destination_airports:
-        if not dept_airport.icao == dest.icao:
-            current_dist = dept_airport.distance_to(dest, units)
-
-            if current_dist < min_dist or not seen_dist:
-                closest_airport = dest
-                min_dist = current_dist
-            seen_dist = True
-
-    return closest_airport, min_dist
 
 
 def populate_dest_airports(origin, dest_airports, all_airports):
@@ -30,12 +14,12 @@ def populate_dest_airports(origin, dest_airports, all_airports):
             dest_airports.append(airport)
 
 
-def traverse_airports(dest_airports, previous_airport, units):
+def traverse_airports(dest_airports, previous_airport, origin_icao, units):
     flights = []
+    dest_airports.remove(previous_airport)
     while len(dest_airports) >= 1:
-        #close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
         close_airport = previous_airport.closest_airport(dest_airports, units)
-        close_dist = previous_airport.distance_to(close_airport)
+        close_dist = previous_airport.distance_to(close_airport, units)
         flight = Flight(previous_airport, close_airport, close_dist, units)
         flights.append(flight)
         previous_airport = close_airport
@@ -45,7 +29,6 @@ def traverse_airports(dest_airports, previous_airport, units):
 
 def return_to_origin(origin, previous_airport, units):
     dest_airports = [origin]
-    #close_airport, close_dist = shortest_distance(previous_airport, dest_airports, units)
     close_airport = previous_airport.closest_airport(dest_airports, units)
     close_dist = previous_airport.distance_to(close_airport, units)
     flight = Flight(previous_airport, close_airport, close_dist, units)
@@ -72,10 +55,8 @@ def print_flights(flights, units):
     print(str(int(total_distance(flights))) + units)
 
 
-def create_flightplan(airports, origin, units):
-    dest_airports = []
-    populate_dest_airports(origin, dest_airports, airports)
-    flights = traverse_airports(dest_airports, origin, units)
+def create_flightplan(airports, origin, origin_icao, units):
+    flights = traverse_airports(airports, origin, origin_icao, units)
     final_stop = flights[-1].destination
     return_flight = return_to_origin(origin, final_stop, units)
     flights.append(return_flight)
@@ -117,12 +98,15 @@ def main(argv):
     airportService = AirportService()
     airports = airportService.get_airports()
 
-    origin = setup_origin(airports, origin_icao)
-    if origin is None:
-        print("Unable to find airport with ICAO code: " + origin_icao)
-        sys.exit()
+    flightSchedule = FlightSchedule(origin_icao, airports)
+    flights = flightSchedule.create_flightplan(units)
 
-    flights = create_flightplan(airports, origin, units)
+    # origin = setup_origin(airports, origin_icao)
+    # if origin is None:
+    #     print("Unable to find airport with ICAO code: " + origin_icao)
+    #     sys.exit()
+
+    # flights = create_flightplan(airports, origin, origin_icao, units)
     print_flights(flights, units)
 
 
