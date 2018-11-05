@@ -21,11 +21,11 @@ class FlightSchedule:
         origin = self.get_airport(origin_icao, airports)
         return origin
 
-    @classmethod
-    def traverse_airports(cls, units):
+    @staticmethod
+    def traverse_airports(self, units):
         flights = []
-        dest_airports = cls.airports
-        previous_airport = cls.origin
+        dest_airports = self.airports
+        previous_airport = self.origin
         #dest_airports.remove(previous_airport)
         while len(dest_airports) >= 1:
             close_airport = previous_airport.closest_airport(dest_airports, units)
@@ -48,7 +48,7 @@ class FlightSchedule:
 
 
     def create_flightplan(self, units):
-        flights = self.traverse_airports(units)
+        flights = self.traverse_airports(self, units)
         final_stop = flights[-1].destination
         return_flight = self.return_to_origin(final_stop, units)
         flights.append(return_flight)

@@ -88,7 +88,7 @@ def main(argv):
             print(USAGE_MESSAGE)
             sys.exit()
         elif opt in ("-o", "--origin"):
-            origin_icao = arg
+            origin_icao = arg.strip()
         elif opt in ("-u", "--units"):
             units = arg
 
