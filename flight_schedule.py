@@ -25,7 +25,7 @@ class FlightSchedule:
         flights = []
         dest_airports = self.airports
         previous_airport = self.origin
-        #dest_airports.remove(previous_airport)
+        dest_airports.remove(previous_airport)
         while len(dest_airports) >= 1:
             close_airport = previous_airport.closest_airport(dest_airports, units)
             close_dist = previous_airport.distance_to(close_airport, units)
