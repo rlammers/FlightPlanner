@@ -6,7 +6,7 @@ class FlightSchedule:
 
     def __init__(self, origin_icao, airports):
         self.airports = airports
-        self.origin = self.setup_origin(airports, origin_icao)
+        self.setup_origin(airports, origin_icao)
 
     @staticmethod
     def get_airport(icao, airports):
@@ -15,11 +15,10 @@ class FlightSchedule:
                 return airport
 
     @classmethod
-    def setup_origin(self, airports, origin_icao):
+    def setup_origin(cls, airports, origin_icao):
         if origin_icao == '':
             raise ValueError("Origin cannot be empty")
-        origin = self.get_airport(origin_icao, airports)
-        return origin
+        cls.origin = cls.get_airport(origin_icao, airports)
 
     @staticmethod
     def traverse_airports(self, units):
