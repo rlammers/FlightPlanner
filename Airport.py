@@ -16,12 +16,12 @@ class Airport(object):
 
 
     def to_geojson(self):
-        point =  Point([self.latitude, self.longitude])
-        feature = Feature(id=None, geometry=point)
+        point =  Point([self.longitude, self.latitude])
+        feature = Feature(id=None, geometry=point, properties={"city": self.city})
         feature_collection = FeatureCollection(features=[feature])
         return feature_collection
 
-    @lru_cache(maxsize=None)
+    @lru_cache(maxsize=1024)
     def distance_to(self, destination, units):
         departure_coords = (self.latitude, self.longitude)
         arrival_coords = (destination.latitude, destination.longitude)

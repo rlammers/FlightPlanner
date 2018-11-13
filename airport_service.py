@@ -12,6 +12,9 @@ class AirportService:
 
     airports = None
 
+    def __init__(self):
+        self.airports = self.read_airports_from_csv('airports.csv')
+
     @classmethod
     def read_airports_from_csv(cls, csv_filename):
         """
@@ -36,6 +39,10 @@ class AirportService:
         """
         Get list of available airports
         """
-        if self.airports is None:
-            self.airports = self.read_airports_from_csv('airports.csv')
         return self.airports
+
+    def get_airport(self, icao):
+        for airport in self.airports:
+            if airport.icao == icao:
+                return airport
+

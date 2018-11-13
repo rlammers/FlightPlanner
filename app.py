@@ -1,12 +1,15 @@
 from bottle import route, run
-import Airport
+from airport_service import AirportService
+from Airport import Airport
 
-airports = [Airport]
+airport_service = None
 
-@route('/airports/<name>', method='PUT')
-def airport_save(name):
-    airports.append(name)
+@route('/airports/<icao>', method='GET')
+def get_airport(icao):
+   airport = airport_service.get_airport(icao)
+   return airport.to_geojson()
 
 
 if __name__ == '__main__':
+    airport_service = AirportService()
     run(host = 'localhost', port = 8080, debug=True)
