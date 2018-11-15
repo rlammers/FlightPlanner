@@ -1,4 +1,5 @@
 from Flight import Flight
+from geojson import FeatureCollection, Feature
 
 class FlightSchedule:
     origin = None
@@ -52,3 +53,11 @@ class FlightSchedule:
         return_flight = self.return_to_origin(final_stop, units)
         flights.append(return_flight)
         return flights
+
+    def to_geojson(self):
+        features = [Feature]
+        for airport in self.airports:
+            feature = airport.to_geojson()
+            features.append(feature)
+        feature_collection = FeatureCollection(features=[features])
+        return feature_collection

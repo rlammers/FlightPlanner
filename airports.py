@@ -4,6 +4,7 @@ from Airport import Airport
 from Flight import Flight
 from airport_service import AirportService
 from flight_schedule import FlightSchedule
+from geojson import FeatureCollection
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
@@ -101,13 +102,11 @@ def main(argv):
     flightSchedule = FlightSchedule(origin_icao, airports)
     flights = flightSchedule.create_flightplan(units)
 
-    # origin = setup_origin(airports, origin_icao)
-    # if origin is None:
-    #     print("Unable to find airport with ICAO code: " + origin_icao)
-    #     sys.exit()
-
-    # flights = create_flightplan(airports, origin, origin_icao, units)
     print_flights(flights, units)
+    features = flightSchedule.to_geojson()
+    # TODO: Output correct airports in FeatureCollection into GeoJSON
+    # TODO: Draw flight path lines between the airports for each flight
+    pass
 
 
 if __name__ == "__main__":

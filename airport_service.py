@@ -13,7 +13,7 @@ class AirportService:
     airports = None
 
     def __init__(self):
-        self.airports = self.read_airports_from_csv('airports.csv')
+        self.airports = self.read_airports_from_csv('small.csv')
 
     @classmethod
     def read_airports_from_csv(cls, csv_filename):
