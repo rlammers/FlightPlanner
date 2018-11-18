@@ -4,7 +4,7 @@ from Airport import Airport
 from Flight import Flight
 from airport_service import AirportService
 from flight_schedule import FlightSchedule
-from geojson import FeatureCollection
+from geojson import FeatureCollection, Feature
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
