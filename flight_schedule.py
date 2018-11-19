@@ -66,7 +66,7 @@ class FlightSchedule:
         return flights
 
     def to_geojson(self):
-        features = [FeatureCollection]
+        features = []
         for airport in self.airports:
             feature = airport.to_geojson()
             features.append(feature)
