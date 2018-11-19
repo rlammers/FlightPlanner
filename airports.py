@@ -104,7 +104,6 @@ def main(argv):
 
     print_flights(flights, units)
     features = flightSchedule.to_geojson()
-    # TODO: Output correct airports in FeatureCollection into GeoJSON
     # TODO: Draw flight path lines between the airports for each flight
     pass
 
