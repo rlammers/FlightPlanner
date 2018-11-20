@@ -1,10 +1,11 @@
+"""
+Run the flight planner as a console application.
+"""
 import getopt
 import sys
-from airport import Airport
 from flight import Flight
 from airport_service import AirportService
 from flight_schedule import FlightSchedule
-from geojson import FeatureCollection, Feature
 
 USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
@@ -15,7 +16,7 @@ def populate_dest_airports(origin, dest_airports, all_airports):
             dest_airports.append(airport)
 
 
-def traverse_airports(dest_airports, previous_airport, origin_icao, units):
+def traverse_airports(dest_airports, previous_airport, units):
     flights = []
     dest_airports.remove(previous_airport)
     while len(dest_airports) >= 1:
@@ -41,6 +42,7 @@ def get_airport(icao, airports):
     for airport in airports:
         if icao == airport.icao:
             return airport
+    return None
 
 
 def total_distance(flights):
@@ -56,8 +58,8 @@ def print_flights(flights, units):
     print(str(int(total_distance(flights))) + units)
 
 
-def create_flightplan(airports, origin, origin_icao, units):
-    flights = traverse_airports(airports, origin, origin_icao, units)
+def create_flightplan(airports, origin, units):
+    flights = traverse_airports(airports, origin, units)
     final_stop = flights[-1].destination
     return_flight = return_to_origin(origin, final_stop, units)
     flights.append(return_flight)
@@ -72,7 +74,7 @@ def setup_origin(airports, origin_icao):
 
 
 def main(argv):
-    if len(argv) == 0:
+    if not argv:
         print(USAGE_MESSAGE)
         sys.exit()
 
@@ -96,11 +98,11 @@ def main(argv):
     if units == '':
         units = 'km'
 
-    airportService = AirportService()
-    airports = airportService.get_airports()
+    airport_service = AirportService()
+    airports = airport_service.get_airports()
 
-    flightSchedule = FlightSchedule(origin_icao, airports)
-    flights = flightSchedule.create_flightplan(units)
+    flight_schedule = FlightSchedule(origin_icao, airports)
+    flights = flight_schedule.create_flightplan(units)
 
     print_flights(flights, units)
     # TODO: Draw flight path lines between the airports for each flight
