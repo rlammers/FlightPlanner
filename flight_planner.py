@@ -80,11 +80,11 @@ def main(argv):
     units = ''
 
     try:
-        opts, args = getopt.getopt(argv, "ho:u:", [])
+        opts = getopt.getopt(argv, "ho:u:", [])
     except getopt.GetoptError:
         print(USAGE_MESSAGE)
         sys.exit(2)
-    for opt, arg in opts:
+    for opt, arg in opts[0]:
         if opt == '-h':
             print(USAGE_MESSAGE)
             sys.exit()
@@ -103,9 +103,8 @@ def main(argv):
     flights = flightSchedule.create_flightplan(units)
 
     print_flights(flights, units)
-    features = flightSchedule.to_geojson()
     # TODO: Draw flight path lines between the airports for each flight
-    pass
+    # features = flightSchedule.to_geojson()
 
 
 if __name__ == "__main__":
