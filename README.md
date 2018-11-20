@@ -6,7 +6,7 @@ Usage: python flight_planner.py -o "NZCH"
 Usage: python app.py
 
 ### Requests
-* Get http://hostname:port/airport/`<ICAO>`
+* Get http://hostname:port/airport/icao
 * Get http://hostname:port/flightschedule
 
 These return GeoJSON, you still need to render that on a map.
