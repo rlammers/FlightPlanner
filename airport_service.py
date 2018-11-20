@@ -23,15 +23,16 @@ class AirportService:
         airports_df = pd.read_csv(csv_filename)
         airports = []
         
-        for idx, airport in airports_df.iterrows():
+        for row in airports_df.itertuples(index=False, name="Aiport"):
             airports.append(
                 Airport(
-                    airport.icao,
-                    airport.latitude,
-                    airport.longitude,
-                    airport.city
+                    row.icao,
+                    row.latitude,
+                    row.longitude,
+                    row.city
                 )
             )
+  
         return airports
 
 
