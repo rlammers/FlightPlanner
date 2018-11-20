@@ -1,7 +1,7 @@
 import getopt
 import sys
-from Airport import Airport
-from Flight import Flight
+from airport import Airport
+from flight import Flight
 from airport_service import AirportService
 from flight_schedule import FlightSchedule
 from geojson import FeatureCollection, Feature

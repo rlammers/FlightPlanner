@@ -1,6 +1,17 @@
 # FlightPlanner
-Usage: python airports.py
+## Console App
+Usage: python flight_planner.py -o "NZCH"
 
-Prerequisites: Python3, GeoPy and Pandas
+## Web App
+Usage: python app.py
 
-Testing Framework: Pytest
+### Requests
+*Get http://hostname:port/airport/<ICAO>
+*Get http://hostname:port/flightschedule
+
+These return GeoJSON, you still need to render that on a map.
+
+You can paste the JSON into a website like geojson.io for a preview.
+
+## Dependencies
+Use pipenv to install dependencies

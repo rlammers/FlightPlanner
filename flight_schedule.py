@@ -1,4 +1,4 @@
-from Flight import Flight
+from flight import Flight
 from geojson import FeatureCollection, Feature, Point
 import copy
 

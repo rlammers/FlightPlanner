@@ -2,7 +2,7 @@
 A service for providing airports
 """
 import pandas as pd
-from Airport import Airport
+from airport import Airport
 
 
 class AirportService:

@@ -1,5 +1,5 @@
 from airports import get_airport
-from Airport import Airport
+from airport import Airport
 from airport_service import AirportService
 
 
