@@ -45,13 +45,6 @@ def get_airport(icao, airports):
     return None
 
 
-def total_distance(flights):
-    total = 0
-    for flight in flights:
-        total = total + flight.distance
-    return total
-
-
 def create_flightplan(airports, origin, units):
     flights = traverse_airports(airports, origin, units)
     final_stop = flights[-1].destination

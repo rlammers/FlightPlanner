@@ -107,3 +107,17 @@ class FlightSchedule:
         for flight in self.flights:
             print(flight)
         print(str(int(self.total_distance(self.flights))) + self.UNITS)
+
+    def to_geojson(self):
+        features = []
+
+        for airport in self.airports:
+            feature = airport.to_geojson()
+            features.append(feature)
+
+        for flight in self.flights:
+            feature = flight.to_geojson()
+            features.append(feature)
+            
+        feature_collection = FeatureCollection(features)
+        return feature_collection

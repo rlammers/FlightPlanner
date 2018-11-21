@@ -18,6 +18,17 @@ def get_airport(icao):
     return airport.to_geojson()
 
 
+@route('/flightschedule', method='GET')
+def get_flightschedule():
+    """
+    Get entire flight schedule (flight paths and airports) as GeoJSON
+    """
+    airports = AIRPORT_SERVICE.get_airports()
+    schedule = FlightSchedule('NZCH', airports)
+    schedule.create_flightplan('km')
+    return schedule.to_geojson()    
+
+
 @route('/flightschedule/airports', method='GET')
 def get_flightschedule_airports():
     """
