@@ -2,13 +2,19 @@ from flight import Flight
 from geojson import FeatureCollection, Feature, Point
 import copy
 
+
 class FlightSchedule:
-    origin = None
-    airports = []
+    _origin = None
+    _airports = []
+    _flights = []
+    # TODO: Make units passed in as a param rather than constant
+    UNITS = "km"
+
 
     def __init__(self, origin_icao, airports):
         self.airports = airports
         self.setup_origin(airports, origin_icao)
+
 
     @staticmethod
     def get_airport(icao, airports):
@@ -16,11 +22,13 @@ class FlightSchedule:
             if icao == airport.icao:
                 return airport
 
+
     @classmethod
     def setup_origin(cls, airports, origin_icao):
         if origin_icao == '':
             raise ValueError("Origin cannot be empty")
         cls.origin = cls.get_airport(origin_icao, airports)
+
 
     @staticmethod
     def traverse_airports(self, units):
@@ -39,6 +47,7 @@ class FlightSchedule:
             self.remove_airport_from_list(self, close_airport, dest_airports)
         
         return flights
+
 
     @staticmethod
     def remove_airport_from_list(self, airport_to_remove, airport_list):
@@ -59,16 +68,42 @@ class FlightSchedule:
 
 
     def create_flightplan(self, units):
-        flights = self.traverse_airports(self, units)
-        final_stop = flights[-1].destination
+        self.flights = self.traverse_airports(self, units)
+        final_stop = self.flights[-1].destination
         return_flight = self.return_to_origin(final_stop, units)
-        flights.append(return_flight)
-        return flights
+        self.flights.append(return_flight)
+        
 
-    def to_geojson(self):
+    def airports_to_geojson(self):
         features = []
         for airport in self.airports:
             feature = airport.to_geojson()
             features.append(feature)
         feature_collection = FeatureCollection(features)
         return feature_collection
+
+
+    def get_flights(self):
+        return self.flights
+
+
+    def flights_to_geojson(self):
+        features = []
+        for flight in self.flights:
+            feature = flight.to_geojson()
+            features.append(feature)
+        feature_collection = FeatureCollection(features)
+        return feature_collection
+
+
+    def total_distance(self, flights):
+        total = 0
+        for flight in flights:
+            total = total + flight.distance
+        return total
+
+
+    def print_flights(self):
+        for flight in self.flights:
+            print(flight)
+        print(str(int(self.total_distance(self.flights))) + self.UNITS)

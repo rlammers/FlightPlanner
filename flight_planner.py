@@ -52,12 +52,6 @@ def total_distance(flights):
     return total
 
 
-def print_flights(flights, units):
-    for flight in flights:
-        print(flight)
-    print(str(int(total_distance(flights))) + units)
-
-
 def create_flightplan(airports, origin, units):
     flights = traverse_airports(airports, origin, units)
     final_stop = flights[-1].destination
@@ -102,9 +96,9 @@ def main(argv):
     airports = airport_service.get_airports()
 
     flight_schedule = FlightSchedule(origin_icao, airports)
-    flights = flight_schedule.create_flightplan(units)
+    flight_schedule.create_flightplan(units)
+    flight_schedule.print_flights()
 
-    print_flights(flights, units)
     # TODO: Draw flight path lines between the airports for each flight
     # features = flightSchedule.to_geojson()
 

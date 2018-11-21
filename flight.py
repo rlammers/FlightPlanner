@@ -1,7 +1,7 @@
 """
 A single flight
 """
-from geojson import LineString
+from geojson import LineString, Feature
 
 class Flight():
     """
@@ -31,4 +31,5 @@ class Flight():
         origin_coordinates = (self.origin.longitude, self.origin.latitude)
         destination_coordinates = (self.destination.longitude, self.destination.latitude)
         line_string = LineString(coordinates=([origin_coordinates, destination_coordinates]))
-        return line_string
+        feature = Feature(id=None, geometry=line_string)
+        return feature
