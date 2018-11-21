@@ -4,6 +4,7 @@ This is a bottle app to run the airport and flight planner services
 from bottle import route, run
 from airport_service import AirportService
 from flight_schedule import FlightSchedule
+from flight import Flight
 
 AIRPORT_SERVICE = None
 
@@ -27,6 +28,17 @@ def get_flightschedule():
     schedule = FlightSchedule('NZCH', airports)
     schedule.create_flightplan('km')
     return schedule.to_geojson()
+
+
+@route('/flight', method='GET')
+def get_flight():
+    """
+    Get a flight as a GeoJSON LineString
+    """
+    christchurch = AIRPORT_SERVICE.get_airport('NZCH')
+    auckland = AIRPORT_SERVICE.get_airport('NZAA')
+    flight = Flight(christchurch, auckland, 0, 'km')
+    return flight.to_geojson()
 
 
 if __name__ == '__main__':
