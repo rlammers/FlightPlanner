@@ -1,8 +1,13 @@
 # FlightPlanner
+This is not a real flight planner. Currently it doesn't have any routes just a straight line between airports. It is based around given a list of airports, return a order to travel between each destination.
+
+## Security
+No consideration has been given to the security of the webservice. It is NOT recommended to host this on any server exposed to the internet. Feel free to raise any issues or send pull requests.
+
 ## Console App
 Usage: python flight_planner.py -o "NZCH"
 
-## Web App
+## Web Service
 Usage: python app.py
 
 ### Requests
