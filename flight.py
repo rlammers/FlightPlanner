@@ -3,7 +3,8 @@ A single flight
 """
 from geojson import LineString, Feature
 
-class Flight():
+
+class Flight:
     """
     Flight object has an origin, destination and a calculated distance
     between them. As well as the units for the distance. It can be printed

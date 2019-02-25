@@ -2,9 +2,10 @@
 This is a bottle app to run the airport and flight planner services
 """
 from bottle import route, run
+
 from airport_service import AirportService
-from flight_schedule import FlightSchedule
 from flight import Flight
+from flight_schedule import FlightSchedule
 
 AIRPORT_SERVICE = None
 

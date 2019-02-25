@@ -1,6 +1,5 @@
-from flight_planner import get_airport
-from airport import Airport
 from airport_service import AirportService
+from flight_planner import get_airport
 
 
 def test_get_airport():

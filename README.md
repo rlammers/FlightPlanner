@@ -20,3 +20,6 @@ You can paste the JSON into a website like http://geojson.io for a preview.
 
 ## Dependencies
 Use pipenv to install dependencies
+>pip install pipenv
+
+>pipenv install

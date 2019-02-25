@@ -2,6 +2,7 @@
 A service for providing airports
 """
 import pandas as pd
+
 from airport import Airport
 
 
@@ -23,7 +24,7 @@ class AirportService:
         airports_df = pd.read_csv(csv_filename)
         airports = []
         
-        for row in airports_df.itertuples(index=False, name="Aiport"):
+        for row in airports_df.itertuples(index=False, name="Airport"):
             airports.append(
                 Airport(
                     row.icao,
@@ -35,7 +36,6 @@ class AirportService:
   
         return airports
 
-
     def get_airports(self):
         """
         Get list of available airports
@@ -46,4 +46,3 @@ class AirportService:
         for airport in self.airports:
             if airport.icao == icao:
                 return airport
-

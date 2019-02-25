@@ -5,7 +5,6 @@ name = "pypi"
 
 [dev-packages]
 pylint = "<2.0.0"
-rope = "*"
 
 [packages]
 pandas = "*"
@@ -13,6 +12,8 @@ geopy = "*"
 geojson = "*"
 pylint = "*"
 bottle = "*"
+pytest = "*"
+coverage = "*"
 
 [requires]
 python_version = "3.6"

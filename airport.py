@@ -1,6 +1,8 @@
-from geojson import Point, Feature, FeatureCollection
-from geopy import distance
 from functools import lru_cache
+
+from geojson import Point, Feature
+from geopy import distance
+
 
 class Airport(object):
     icao = ''
@@ -14,9 +16,8 @@ class Airport(object):
         self.longitude = longitude
         self.city = city
 
-
     def to_geojson(self):
-        point =  Point([self.longitude, self.latitude])
+        point = Point([self.longitude, self.latitude])
         feature = Feature(id=None, geometry=point, properties={"city": self.city})
         return feature
 
@@ -31,7 +32,6 @@ class Airport(object):
             return distance.great_circle(departure_coords, arrival_coords).km
         else:
             raise ValueError('Invalid unit specified when calculating distance between airports.')
-
 
     def closest_airport(self, airports, units):
         seen_dist = False

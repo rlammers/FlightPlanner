@@ -3,11 +3,12 @@ Run the flight planner as a console application.
 """
 import getopt
 import sys
-from flight import Flight
+
 from airport_service import AirportService
+from flight import Flight
 from flight_schedule import FlightSchedule
 
-USAGE_MESSAGE = 'airports.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
+USAGE_MESSAGE = 'flight_planner.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
 
 
 def populate_dest_airports(origin, dest_airports, all_airports):

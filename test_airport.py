@@ -1,7 +1,7 @@
 from airport import Airport
-from geojson import Point, Feature, FeatureCollection
 
 ICAO_INDEX = 1
+
 
 def test_distance_to():
     units = 'nm'
