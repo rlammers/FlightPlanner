@@ -4,16 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-pylint = "<2.0.0"
+pylint = ">=2.16.0"
 
 [packages]
-pandas = "*"
-geopy = "*"
-geojson = "*"
-pylint = "*"
-bottle = "*"
-pytest = "*"
-coverage = "*"
+pandas = ">=2.2.0"
+geopy = ">=2.4.0"
+geojson = ">=3.0.0"
+pylint = ">=2.16.0"
+bottle = ">=0.12.25"
+pytest = ">=7.4.0"
+coverage = ">=7.3.0"
 
 [requires]
-python_version = "3.14.*"
+python_version = "3.13"
