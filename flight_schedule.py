@@ -6,15 +6,14 @@ from flight import Flight
 
 
 class FlightSchedule:
-    _origin = None
-    _airports = []
-    _flights = []
-    # TODO: Make units passed in as a param rather than constant
     UNITS = "km"
 
-    def __init__(self, origin_icao, airports):
+    def __init__(self, origin_icao, airports, units=None):
         self.airports = airports
-        self.setup_origin(airports, origin_icao)
+        self._flights = []
+        self._origin = None
+        self.units = units or self.UNITS
+        self.setup_origin(origin_icao)
 
     @staticmethod
     def get_airport(icao, airports):
@@ -22,13 +21,13 @@ class FlightSchedule:
             if icao == airport.icao:
                 return airport
 
-    @classmethod
-    def setup_origin(cls, airports, origin_icao):
+    def setup_origin(self, origin_icao):
         if origin_icao == '':
             raise ValueError("Origin cannot be empty")
-        cls._origin = cls.get_airport(origin_icao, airports)
+        self._origin = self.get_airport(origin_icao, self.airports)
+        if self._origin is None:
+            raise ValueError(f"Origin airport not found: {origin_icao}")
 
-    @staticmethod
     def traverse_airports(self, units):
         flights = []
         dest_airports = copy.deepcopy(self.airports)
@@ -53,17 +52,24 @@ class FlightSchedule:
                 airport_list.remove(airport)
                 return airport_list
 
-    @classmethod
-    def return_to_origin(cls, previous_airport, units):
-        dest_airports = [cls._origin]
+    def return_to_origin(self, previous_airport, units):
+        dest_airports = [self._origin]
         close_airport = previous_airport.closest_airport(dest_airports, units)
         close_dist = previous_airport.distance_to(close_airport, units)
         flight = Flight(previous_airport, close_airport, close_dist, units)
 
         return flight
 
-    def create_flightplan(self, units):
-        self._flights = self.traverse_airports(self, units)
+    def create_flightplan(self, units=None):
+        if units is None:
+            units = self.units
+        else:
+            self.units = units
+
+        self._flights = self.traverse_airports(units)
+        if not self._flights:
+            return
+
         final_stop = self._flights[-1].destination
         return_flight = self.return_to_origin(final_stop, units)
         self._flights.append(return_flight)
@@ -97,7 +103,7 @@ class FlightSchedule:
     def print_flights(self):
         for flight in self._flights:
             print(flight)
-        print(str(int(self.total_distance(self._flights))) + self.UNITS)
+        print(str(int(self.total_distance(self._flights))) + self.units)
 
     def to_geojson(self):
         features = []
