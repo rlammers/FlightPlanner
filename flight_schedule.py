@@ -42,7 +42,7 @@ class FlightSchedule:
             flights.append(flight)
             previous_airport = close_airport
             self.remove_airport_from_list(close_airport, dest_airports)
-        
+
         return flights
 
     @staticmethod
@@ -115,6 +115,6 @@ class FlightSchedule:
         for flight in self._flights:
             feature = flight.to_geojson()
             features.append(feature)
-            
+
         feature_collection = FeatureCollection(features)
         return feature_collection

@@ -27,7 +27,7 @@ def get_flightschedule():
     airports = AIRPORT_SERVICE.get_airports()
     schedule = FlightSchedule('NZCH', airports)
     schedule.create_flightplan('km')
-    return schedule.to_geojson()    
+    return schedule.to_geojson()
 
 
 @route('/flightschedule/airports', method='GET')

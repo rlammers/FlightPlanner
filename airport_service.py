@@ -23,7 +23,7 @@ class AirportService:
         """
         airports_df = pd.read_csv(csv_filename)
         airports = []
-        
+
         for row in airports_df.itertuples(index=False, name="Airport"):
             airports.append(
                 Airport(
@@ -33,7 +33,7 @@ class AirportService:
                     row.city
                 )
             )
-  
+
         return airports
 
     def get_airports(self):
@@ -43,6 +43,8 @@ class AirportService:
         return self.airports
 
     def get_airport(self, icao):
+        """Get airport by ICAO code"""
         for airport in self.airports:
             if airport.icao == icao:
                 return airport
+        return None
