@@ -456,11 +456,12 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:22c7348c6d2976a52632c67f7ab0cdf40147db7789f9aed18734643fe9cf3373",
-                "sha256:4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e"
+                "sha256:c3a9c4211ff4c309edb8b8c4f1cbfa7ae324c4ba9f91ff254e3d305b9fd54561",
+                "sha256:fcc17fd9cd898242f6b4adfaca46137a9edef687f43e6f78469692a5e70d851d"
             ],
-            "markers": "python_version >= '3.6'",
-            "version": "==59.6.0"
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==78.1.1"
         },
         "typed-ast": {
             "hashes": [
