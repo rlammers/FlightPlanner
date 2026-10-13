@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ebc7f650186f08bb4c36ecb858bbebed16fdb9895d9b2beaeef317a32e2625ae"
+            "sha256": "416d81b77305e2d465aa3f4dc141826dbc226d6e06ff5f19518ac4a9c7563fae"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -165,12 +165,12 @@
         },
         "geopy": {
             "hashes": [
-                "sha256:50283d8e7ad07d89be5cb027338c6365a32044df3ae2556ad3f52f4840b3d0d1",
-                "sha256:ae8b4bc5c1131820f4d75fce9d4aaaca0c85189b3aa5d64c3dcaf5e3b7b882a7"
+                "sha256:7b6c849f18108dcce4faa3d614e2801107b465f7b05fd3c1db9db12e225ae950",
+                "sha256:8ad8cc226b505ca4d272ae9a2eeba08b8a2c565fc9a04eaefc33ad49c32b51aa"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.7'",
-            "version": "==2.4.1"
+            "markers": "python_version >= '3.8'",
+            "version": "==2.5.0"
         },
         "iniconfig": {
             "hashes": [
