@@ -1,38 +1,35 @@
 # FlightPlanner
 
-A flight planning application that generates travel routes between airports. Given a list of airports, it calculates an order to travel between each destination (currently using straight-line paths).
+A flight planning application that generates a round trip through the airports in
+`airports.csv`. Starting from a selected airport, it repeatedly chooses the nearest
+unvisited airport using great-circle distance, then returns to the origin.
 
 ## Features
 
-- **Console Application**: Command-line interface for flight planning
-- **Web Service**: RESTful API returning GeoJSON data
-- **Geospatial Analysis**: Uses geopy and geographiclib for distance calculations
-- **Data Visualization**: Output in GeoJSON format for mapping
+- **Console application**: Prints each flight leg and the total route distance
+- **Web service**: Bottle endpoints that return airport and flight data as GeoJSON
+- **Distance calculation**: Uses geopy to calculate great-circle distances
+- **GeoJSON output**: Produces features suitable for use with mapping tools
 
 ## Requirements
 
-- Python 3.13+
-- Dependencies managed via pipenv or pip
+- Python 3.13
+- pipenv (recommended) or pip
 
 ## Installation
 
 ### Using pipenv (recommended)
 
 ```bash
-pip install pipenv
+python -m pip install pipenv
 pipenv install
+pipenv shell
 ```
 
 ### Using pip
 
 ```bash
-pip install -r requirements.txt
-```
-
-Or install directly:
-
-```bash
-pip install pandas geopy geojson bottle pytest coverage
+python -m pip install pandas geopy geojson bottle pytest coverage pylint
 ```
 
 ## Usage
@@ -43,7 +40,8 @@ pip install pandas geopy geojson bottle pytest coverage
 python flight_planner.py -o "NZCH"
 ```
 
-Generates a flight plan starting from the specified airport (ICAO code).
+Generates a round trip starting from the specified airport. The ICAO code must be
+present in `airports.csv`.
 
 #### Console switches
 
@@ -65,36 +63,29 @@ python flight_planner.py -o "NZAA" -u "nm"
 python app.py
 ```
 
-Starts a local web server on `http://localhost:8080`
+Starts Bottle's development server at `http://localhost:8080`.
 
 #### API Endpoints
 
-- `GET /airports/<icao>` - Get airport information by ICAO code
-- `GET /flightschedule` - Get complete flight schedule (flights and airports)
-- `GET /flightschedule/airports` - Get airports in the flight schedule
-- `GET /flightschedule/flights` - Get flight paths in the schedule
-- `GET /flight` - Get sample flight (Christchurch to Auckland)
+- `GET /airports/<icao>` - Get an airport by ICAO code
+- `GET /flightschedule` - Get the airports and flight paths in the schedule
+- `GET /flightschedule/airports` - Get the schedule's airports
+- `GET /flightschedule/flights` - Get the schedule's flight paths
+- `GET /flight` - Get a sample flight path from Christchurch to Auckland
 
-All endpoints return GeoJSON data. Preview results at [geojson.io](http://geojson.io)
+The schedule endpoints currently use Christchurch (`NZCH`) as the origin and
+kilometres as the distance unit. Successful responses are GeoJSON and can be
+previewed at [geojson.io](https://geojson.io/).
 
 ## Testing
 
 Run the test suite:
 
 ```bash
-pytest -v
+python -m pytest -v
 ```
 
-## Security
-
-All dependencies are kept current with security updates. Dependencies include:
-
-- pandas 3.0.3
-- geopy 2.4.1
-- geojson 3.3.0
-- bottle 0.13.4
-- pytest 9.1.1
-- coverage 7.14.3
+## Security considerations
 
 **Note**: This is a demonstration application. Do not expose the web service to untrusted networks without additional security measures (authentication, rate limiting, input validation, HTTPS, etc.).
 
@@ -102,11 +93,13 @@ All dependencies are kept current with security updates. Dependencies include:
 
 - `flight_planner.py` - Main console application
 - `app.py` - Web service entry point
+- `airport.py` - Airport model and distance calculations
 - `airport_service.py` - Airport data management
 - `flight.py` - Flight route calculations
 - `flight_schedule.py` - Flight schedule generation
 - `test_*.py` - Unit tests
 - `airports.csv` / `small.csv` - Airport data
+- `Pipfile` / `Pipfile.lock` - Dependency declarations and lock data
 
 ## Contributing
 
