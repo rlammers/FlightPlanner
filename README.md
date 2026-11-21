@@ -45,6 +45,20 @@ python flight_planner.py -o "NZCH"
 
 Generates a flight plan starting from the specified airport (ICAO code).
 
+#### Console switches
+
+| Switch | Description |
+| --- | --- |
+| `-h` | Display the usage message and exit. |
+| `-o <ICAO>` | Set the required origin airport using its ICAO code, for example `NZCH`. |
+| `-u <units>` | Set the distance units to `km` or `nm`. Defaults to `km`. |
+
+For example, to generate a flight plan from Auckland with distances in nautical miles:
+
+```bash
+python flight_planner.py -o "NZAA" -u "nm"
+```
+
 ### Web Service
 
 ```bash
