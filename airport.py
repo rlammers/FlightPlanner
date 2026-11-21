@@ -5,7 +5,7 @@ distance calculation, and finding the closest airport.
 from functools import lru_cache
 
 from geojson import Point, Feature
-from geopy import distance
+from geopy.distance import great_circle
 
 
 class Airport(object):
@@ -57,9 +57,9 @@ class Airport(object):
         arrival_coords = (destination.latitude, destination.longitude)
 
         if units.lower() == 'nm':
-            return distance.great_circle(departure_coords, arrival_coords).nm
+            return great_circle(departure_coords, arrival_coords).nautical
         elif units.lower() == 'km':
-            return distance.great_circle(departure_coords, arrival_coords).km
+            return great_circle(departure_coords, arrival_coords).kilometers
         else:
             raise ValueError('Invalid unit specified when calculating distance between airports.')
 
