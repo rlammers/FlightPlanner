@@ -47,9 +47,9 @@ present in `airports.csv`.
 
 | Switch | Description |
 | --- | --- |
-| `-h` | Display the usage message and exit. |
-| `-o <ICAO>` | Set the required origin airport using its ICAO code, for example `NZCH`. |
-| `-u <units>` | Set the distance units to `km` or `nm`. Defaults to `km`. |
+| `-h`, `--help` | Display the usage message and exit. |
+| `-o <ICAO>`, `--origin <ICAO>` | Set the required origin airport using its ICAO code, for example `NZCH`. |
+| `-u <units>`, `--units <units>` | Set the distance units to `km` or `nm`. Defaults to `km`. |
 
 For example, to generate a flight plan from Auckland with distances in nautical miles:
 

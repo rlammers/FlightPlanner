@@ -1,15 +1,11 @@
 """
 Run the flight planner as a console application.
 """
-import getopt
-import sys
+import argparse
 
 from airport_service import AirportService
 from flight import Flight
 from flight_schedule import FlightSchedule
-
-USAGE_MESSAGE = 'flight_planner.py -i <inputfile> -o <originicao> -u <unitsofdistance>'
-
 
 def populate_dest_airports(origin, dest_airports, all_airports):
     for airport in all_airports:
@@ -61,36 +57,43 @@ def setup_origin(airports, origin_icao):
     return origin
 
 
-def main(argv):
-    if not argv:
-        print(USAGE_MESSAGE)
-        sys.exit()
+def create_argument_parser():
+    """Create the command-line argument parser."""
+    parser = argparse.ArgumentParser(
+        description="Create a round trip through the airports in airports.csv."
+    )
+    parser.add_argument(
+        '-o',
+        '--origin',
+        required=True,
+        metavar='ICAO',
+        help='origin airport ICAO code',
+    )
+    parser.add_argument(
+        '-u',
+        '--units',
+        choices=('km', 'nm'),
+        default='km',
+        type=str.lower,
+        help='distance units (default: km)',
+    )
+    return parser
 
-    origin_icao = ''
-    units = ''
 
-    try:
-        opts = getopt.getopt(argv, "ho:u:", [])
-    except getopt.GetoptError:
-        print(USAGE_MESSAGE)
-        sys.exit(2)
-    for opt, arg in opts[0]:
-        if opt == '-h':
-            print(USAGE_MESSAGE)
-            sys.exit()
-        elif opt in ("-o", "--origin"):
-            origin_icao = arg.strip()
-        elif opt in ("-u", "--units"):
-            units = arg
-
-    if units == '':
-        units = 'km'
+def main(argv=None):
+    """Parse command-line arguments and print the resulting flight plan."""
+    parser = create_argument_parser()
+    args = parser.parse_args(argv)
 
     airport_service = AirportService()
     airports = airport_service.get_airports()
 
-    flight_schedule = FlightSchedule(origin_icao, airports)
-    flight_schedule.create_flightplan(units)
+    try:
+        flight_schedule = FlightSchedule(args.origin.strip(), airports)
+    except ValueError as error:
+        parser.error(str(error))
+
+    flight_schedule.create_flightplan(args.units)
     flight_schedule.print_flights()
 
     # TODO: Draw flight path lines between the airports for each flight
@@ -98,4 +101,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    main()
