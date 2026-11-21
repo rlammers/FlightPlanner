@@ -7,7 +7,7 @@ from airport_service import AirportService
 from flight import Flight
 from flight_schedule import FlightSchedule
 
-AIRPORT_SERVICE = None
+AIRPORT_SERVICE = AirportService()
 
 
 @route('/airports/<icao>', method='GET')
@@ -65,5 +65,4 @@ def get_flight():
 
 
 if __name__ == '__main__':
-    AIRPORT_SERVICE = AirportService()
     run(host='localhost', port=8080, debug=True)
